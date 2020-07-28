@@ -1,2 +1,2 @@
 # Slack-PD-Sync
-Make dynamic group form PD shifts
+Synchronize Slack group with PD schedules.
