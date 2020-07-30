@@ -39,7 +39,7 @@ If both are set, flags values will be used.
 ## Example
 
 ```
-Slack-PD-Sync -pd-key xxx -pd-schedules XXXXXX  -slack-group 'Support' -slack-token xoxp-xxx
+./Slack-PD-Sync -pd-key xxx -pd-schedules XXXXXX  -slack-group 'Support' -slack-token xoxp-xxx
 Run PD Function
 Active users : [anthony@example.com]
 Run Slack Function
