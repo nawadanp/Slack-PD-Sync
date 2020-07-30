@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -28,26 +29,47 @@ func parseFlags() (flags, error) {
 	flagPdSchedules := flag.String("pd-schedules", "", "Comma separated list of Pagerduty schedules")
 	flagSlackGroup := flag.String("slack-group", "", "Slack user group to update")
 	flag.Parse()
+
 	parsedFlags.pd.key = *flagPdKey
 	listPdSchedules := *flagPdSchedules
 	parsedFlags.slack.token = *flagSlackToken
 	parsedFlags.slack.group = *flagSlackGroup
 
 	if parsedFlags.pd.key == "" {
-		return parsedFlags, fmt.Errorf("-pd-key should be defined")
+		envPdKey, exists := os.LookupEnv("PD_KEY")
+		if exists {
+			parsedFlags.pd.key = envPdKey
+		} else {
+			return parsedFlags, fmt.Errorf("-pd-key should be defined")
+		}
 	}
 
 	if listPdSchedules == "" {
-		return parsedFlags, fmt.Errorf("-pd-schedules should be defined")
+		envPdSchedules, exists := os.LookupEnv("PD_SCHEDULES")
+		if exists {
+			listPdSchedules = envPdSchedules
+		} else {
+			return parsedFlags, fmt.Errorf("-pd-schedules should be defined")
+		}
 	}
 	parsedFlags.pd.schedules = strings.Split(listPdSchedules, ",")
 
 	if parsedFlags.slack.token == "" {
-		return parsedFlags, fmt.Errorf("-slack-token should be defined")
+		envSlackToken, exists := os.LookupEnv("SLACK_TOKEN")
+		if exists {
+			parsedFlags.slack.token = envSlackToken
+		} else {
+			return parsedFlags, fmt.Errorf("-slack-token should be defined")
+		}
 	}
 
 	if parsedFlags.slack.group == "" {
-		return parsedFlags, fmt.Errorf("-slack-group should be defined")
+		envSlackGroup, exists := os.LookupEnv("SLACK_GROUP")
+		if exists {
+			parsedFlags.slack.group = envSlackGroup
+		} else {
+			return parsedFlags, fmt.Errorf("-slack-group should be defined")
+		}
 	}
 	return parsedFlags, nil
 
