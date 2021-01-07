@@ -1,5 +1,5 @@
 # Slack-PD-Sync
-Synchronize Slack group with PD schedules.
+Synchronize Slack group with Pagerduty schedules.
 
 ## Build sources 
 
